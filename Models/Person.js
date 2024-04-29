@@ -19,6 +19,15 @@ const personSchema=new mongoose.Schema({
         required: true,
         unique: true
     },
+    password: {
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
     mobile: {
         type: String,
         required: true
