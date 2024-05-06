@@ -2,10 +2,12 @@ const express=require('express')
 const router=express.Router();
 
 const Menu=require('./../Models/MenuItem')
+const passport=require('./../auth')
 
+const authMiddleWare=passport.authenticate('local',{session: false})
 
 //Create Menu
-router.post('/',async(req,resp)=>{
+router.post('/',authMiddleWare,async(req,resp)=>{
     try{
         const data=req.body
         const newMenu=new Menu(data)

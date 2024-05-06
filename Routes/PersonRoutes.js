@@ -11,6 +11,7 @@ router.post('/',async (req,resp)=>{
         const savedPerson=await newPerson.save();
         resp.json(savedPerson).status(200);
     }catch(ex){
+        console.log(ex);
         resp.send("Internal Server Error!").status(500);
     }
 })

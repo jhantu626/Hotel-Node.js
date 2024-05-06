@@ -8,32 +8,9 @@ const Person = require('./Models/Person');
 const bodyParser=require('body-parser')
 app.use(bodyParser.json());
 
-/*
-    *Implementing Authentication using passport and passport-local
-*/
-const passport=require('passport')
-const LocalStrategy=require('passport-local').Strategy;
+const passport=require('./auth')
 
-passport.use(new LocalStrategy(
-    async (username,password,done)=>{
-        console.log(`Credentials ${username} ${password}`)
-        try{
-            const user=await Person.findOne({"email": username});
-            if(!user){
-                return done(null,false,{messege: "User Not Found"});
-            }
-            const isPasswordMatched=(password===user.password?true:false)
-            if(isPasswordMatched){
-                return done(null,user)
-            }else{
-                return done(null,false,{messege: "Unauthorized"})
-            }
-        }catch(err){
-            console.log(err)
-            return done(err);
-        }
-    }
-));
+
 
 app.use(passport.initialize());
 const authMiddleWare=passport.authenticate('local',{session: false});
@@ -71,7 +48,7 @@ app.use('/person',personRoutes)
 
 //Menu Routes
 const menuRoutes=require('./Routes/MenuRoutes');
-app.use('/menu',menuRoutes)
+app.use('/menu',authMiddleWare,menuRoutes)
 
 
 
