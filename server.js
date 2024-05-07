@@ -4,6 +4,7 @@ const app=express();
 const db=require('./db')
 const Person = require('./Models/Person');
 
+const {jwtAuthMiddleWare}=require('./jwt')
 
 const bodyParser=require('body-parser')
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ const authMiddleWare=passport.authenticate('local',{session: false});
 // app.use(authMiddleWare)
 
 //Authenticate A Endpoint
-app.get('/',authMiddleWare,(req,resp)=>{
+app.get('/',jwtAuthMiddleWare,(req,resp)=>{
     resp.send("Welcome to our App");
 })
 
@@ -48,7 +49,7 @@ app.use('/person',personRoutes)
 
 //Menu Routes
 const menuRoutes=require('./Routes/MenuRoutes');
-app.use('/menu',authMiddleWare,menuRoutes)
+app.use('/menu',jwtAuthMiddleWare,menuRoutes)
 
 
 

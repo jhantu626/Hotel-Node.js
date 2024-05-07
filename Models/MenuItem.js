@@ -4,7 +4,8 @@ const mongoose=require('mongoose')
 const MenuSchema=new mongoose.Schema({
     name:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     price:{
         type: Number,
